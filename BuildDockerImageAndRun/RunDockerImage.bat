@@ -1,0 +1,2 @@
+@REM docker run -it steven/amd64_ubuntu20.4 /bin/bash  => this command doesn't have a shared folder between host tool and the container.
+docker run -it -v C:\Users\top90\Desktop\BuildMyGit:/shared steven/amd64_ubuntu20.4 /bin/bash

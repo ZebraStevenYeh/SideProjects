@@ -1,0 +1,1 @@
+FOR /f "tokens=*" %%i IN ('docker ps -a -f ancestor^=steven/amd64_ubuntu20.4') DO docker rm -f %%i 

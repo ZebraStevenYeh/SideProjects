@@ -1,0 +1,1 @@
+docker build -t steven/amd64_ubuntu20.4 .
