@@ -21,3 +21,4 @@ RUN apt install -y nasm
 RUN apt install -y uuid-dev
 # Ubuntu 20.04 python command is 'python3' but edk2 tools use 'python'
 RUN apt install -y python-is-python3
+RUN apt install -y git
