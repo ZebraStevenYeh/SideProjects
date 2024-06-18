@@ -1,0 +1,31 @@
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = PcieCamTool
+  FILE_GUID                      = c0f9177f-a77d-47fe-b45f-36533fa7e1ff
+  MODULE_TYPE                    = UEFI_APPLICATION
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = UefiMain
+
+
+[Sources]
+  PcieCamTool.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+
+[LibraryClasses]
+  UefiApplicationEntryPoint
+  UefiBootServicesTableLib
+  UefiLib
+  IoLib
+
+[FeaturePcd]
+
+[Pcd]
+
+[Protocols]
+  gEfiShellParametersProtocolGuid
+
+[UserExtensions.TianoCore."ExtraFiles"]
