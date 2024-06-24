@@ -115,9 +115,9 @@ ParseParameters (
     if (InputStr[Index] == '.') DotPisition       = Index;
   }
 
-  InputStrLen = Index - 1;
+  InputStrLen = Index;
 
-  if ((SemicolonPosition > 2) || (DotPisition - SemicolonPosition > 3) || (InputStrLen - DotPisition > 1)) {
+  if ((SemicolonPosition > 2) || (DotPisition - SemicolonPosition > 3) || (InputStrLen - DotPisition > 2)) {
     return -1; 
   }
 
