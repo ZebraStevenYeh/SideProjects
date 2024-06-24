@@ -9,9 +9,9 @@
 UINTN   Argc;
 CHAR16  **Argv;
 
-#define MaxBusNum                       255
-#define MaxDevNum                       31
-#define MaxFunNum                       7
+#define MaxBusNum                       256
+#define MaxDevNum                       32
+#define MaxFunNum                       8
 
 //
 // Declare I/O Ports used to perform PCI Confguration Cycles

@@ -9,9 +9,9 @@
 UINTN   Argc;
 CHAR16  **Argv;
 
-#define MaxBusNum                       255
-#define MaxDevNum                       31
-#define MaxFunNum                       7
+#define MaxBusNum                       256
+#define MaxDevNum                       32
+#define MaxFunNum                       8
 
 #define PCI_MMIO_ADDRESS(Bus, Dev, Fun, Reg) (Bus<<20)+(Dev<<15)+(Fun<<12)+Reg
 #define INTEL_PCIE_MMIO_BASE_ADDR            0xE0000000
