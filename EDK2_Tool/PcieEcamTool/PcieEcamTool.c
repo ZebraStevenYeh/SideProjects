@@ -9,9 +9,9 @@
 UINTN   Argc;
 CHAR16  **Argv;
 
-#define MaxBusNum                       256
-#define MaxDevNum                       32
-#define MaxFunNum                       8
+#define MaxBusNum                            256
+#define MaxDevNum                            32
+#define MaxFunNum                            8
 
 #define PCI_MMIO_ADDRESS(Bus, Dev, Fun, Reg) (Bus<<20)+(Dev<<15)+(Fun<<12)+Reg
 #define INTEL_PCIE_MMIO_BASE_ADDR            0xE0000000
@@ -57,11 +57,11 @@ PrintUsage (
   VOID
   )
 {
-  Print (L"PcieCamTool:  usage\n");
-  Print (L"  PcieCamTool -h\n");
-  Print (L"  PcieCamTool -x\n");
-  Print (L"  PcieCamTool -s Bus:Dev.Fun\n");
-  Print (L"  PcieCamTool\n");
+  Print (L"PcieEcamTool:  usage\n");
+  Print (L"  PcieEcamTool -h\n");
+  Print (L"  PcieEcamTool -x\n");
+  Print (L"  PcieEcamTool -s Bus:Dev.Fun\n");
+  Print (L"  PcieEcamTool\n");
   Print (L"Parameter:\n");
   Print (L"  -h -help: show instructions\n");
   Print (L"  -s: specify a pcie device with the format of Bus:Dev.Fun.\n");
@@ -159,7 +159,7 @@ ParseParameters (
 
   if (*Bus == -1 || *Dev == -1 || *Fun == -1) return EFI_INVALID_PARAMETER;
 
-  Print (L"Debug InputStrLen = %d, Bus = %x, Dev = %x, Fun = %x\n", InputStrLen, *Bus, *Dev, *Fun);
+  Print (L"InputStrLen = %d, Bus = %x, Dev = %x, Fun = %x\n", InputStrLen, *Bus, *Dev, *Fun);
 
   return EFI_SUCCESS;
 }
@@ -222,7 +222,7 @@ UefiMain (
     return Status;
   }
 
-// Parse input parameters.
+  // Parse input parameters.
   for (Index = 0; Index < Argc; Index ++) {
     if (StrCmp(Argv[Index], L"-h") == 0 || StrCmp(Argv[Index], L"-help") == 0) {
       PrintUsage();
@@ -244,16 +244,16 @@ UefiMain (
         return EFI_INVALID_PARAMETER;
       }
 
-      VId = MmioRead16 (AMD_PCIE_MMIO_BASE_ADDR + PCI_MMIO_ADDRESS(Bus, Dev, Fun, 0));
+      PcieMmioAddr = AMD_PCIE_MMIO_BASE_ADDR + PCI_MMIO_ADDRESS(Bus, Dev, Fun, 0);
+      VId = MmioRead16 (PcieMmioAddr);
       if (VId == 0xffff) {
         Print (L"Invalid Pci address.\n");
         return EFI_INVALID_PARAMETER;
       }
 
-      DId = MmioRead16 (AMD_PCIE_MMIO_BASE_ADDR + PCI_MMIO_ADDRESS(Bus, Dev, Fun, 2));
+      DId = MmioRead16 (PcieMmioAddr + 2);
       Print (L"%02x:%02x.%x  VId = 0x%04x, DId = 0x%04x\n", Bus, Dev, Fun, VId, DId);
       if (ShowRegs) {
-        PcieMmioAddr = AMD_PCIE_MMIO_BASE_ADDR + PCI_MMIO_ADDRESS(Bus, Dev, Fun, 0);
         ShowPciConfigSpace (PcieMmioAddr);
         Print (L"\n");
       }
@@ -266,14 +266,15 @@ UefiMain (
     for (DevIndex = 0; DevIndex < MaxDevNum; DevIndex ++) {
       for (FunIndex = 0; FunIndex < MaxFunNum; FunIndex ++) {
 
-        VId = MmioRead16 (AMD_PCIE_MMIO_BASE_ADDR + PCI_MMIO_ADDRESS(BusIndex, DevIndex, FunIndex, 0));
+        PcieMmioAddr = AMD_PCIE_MMIO_BASE_ADDR + PCI_MMIO_ADDRESS(BusIndex, DevIndex, FunIndex, 0);
+        VId = MmioRead16 (PcieMmioAddr);
         if ((VId == 0xffff) && (FunIndex == 0)) {
           break;
         } else if (VId == 0xffff) {
           continue;
         }
 
-        DId = MmioRead16 (AMD_PCIE_MMIO_BASE_ADDR + PCI_MMIO_ADDRESS(BusIndex, DevIndex, FunIndex, 2));
+        DId = MmioRead16 (PcieMmioAddr + 2);
         Print (L"%02x:%02x.%x  VId = 0x%04x, DId = 0x%04x\n", BusIndex, DevIndex, FunIndex, VId, DId);
         if (ShowRegs) {
           ShowPciConfigSpace(PcieMmioAddr);

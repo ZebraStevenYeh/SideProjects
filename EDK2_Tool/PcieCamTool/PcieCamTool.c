@@ -165,7 +165,7 @@ ParseParameters (
 
   if (*Bus == -1 || *Dev == -1 || *Fun == -1) return EFI_INVALID_PARAMETER;
 
-  Print (L"Debug InputStrLen = %d, Bus = %x, Dev = %x, Fun = %x\n", InputStrLen, *Bus, *Dev, *Fun);
+  Print (L"InputStrLen = %d, Bus = %x, Dev = %x, Fun = %x\n", InputStrLen, *Bus, *Dev, *Fun);
 
   return EFI_SUCCESS;
 }

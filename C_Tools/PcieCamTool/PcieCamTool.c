@@ -127,7 +127,7 @@ ParseParameters (
 
   if (*Bus == -1 || *Dev == -1 || *Fun == -1) return -1;
 
-  printf ("Debug InputStrLen = %d, Bus = %x, Dev = %x, Fun = %x\n", InputStrLen, *Bus, *Dev, *Fun);
+  printf ("InputStrLen = %d, Bus = %x, Dev = %x, Fun = %x\n", InputStrLen, *Bus, *Dev, *Fun);
 
   return 0;
 }
@@ -137,7 +137,7 @@ ShowPciConfigSpace (
   unsigned long    PciIoAddr
 ) {
   unsigned short   Index;
-  unsigned short   Data;
+  unsigned char    Data;
 
   // io access can only read the first 256 bytes
   for (Index = 0; Index <= 0xFF; Index ++) {
