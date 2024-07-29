@@ -270,7 +270,7 @@ ShowPciConfigSpace (
   for (Index = 0; Index <= 0xFFF; Index ++) {
     Data = MmioRead8 (PcieMmioAddr + Index);
     printf ("%02x ", Data);
-    if ((Index + 1) % 16 == 0 ) printf ("\n");
+    if ((Index + 1) % 16 == 0) printf ("\n");
     if (Index == 0x100 && MmioRead32 (PcieMmioAddr + Index) == 0) break;
   }
 }

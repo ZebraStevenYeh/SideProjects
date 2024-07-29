@@ -1,11 +1,7 @@
 import os
 import mmap
-import hexdump
-import colorama
 import sys
-import copy
 import getopt
-from colorama import Fore, Style
 
 MaxBusNum                         =   256
 MaxDevNum                         =   32
@@ -32,6 +28,15 @@ def MmioRead (Addr, Len):
     os.close(Fd)
 
     return Data_Arr
+
+def ShowPciConfigSpace (Addr):
+    for Index in range(0, 0x1000):
+        Data = MmioRead(Addr + Index, 1)
+        print ("%02x " %(Data[0]), end="")
+        if ((Index + 1) % 16 == 0):
+            print("")
+        if (Index == 0x100 and MmioRead(Addr + Index, 1) == 0):
+            break
     
 def HelpMessage ():
     print("PcieEcamTool:  usage")
@@ -49,9 +54,10 @@ def HexStringToInt (str):
     return int(Val, 16)
 
 if __name__ == "__main__":
+
     InputPcieDev = ""
-    
-    print("Python tool for doing Pcie devices by ECAM(MMIO):\n")
+    ShowRegs = False
+    print("\nPython tool for doing Pcie devices by ECAM(MMIO):\n")
 
     # Parse input parameters.
     opts,args = getopt.getopt(sys.argv[1:], "hHxXs:S:", )
@@ -83,7 +89,9 @@ if __name__ == "__main__":
                 sys.exit()
             DId = MmioRead (PcieMmioAddr + 2, 2)
             print("%02x:%02x.%x  VId = 0x%02x%02x, DId = 0x%02x%02x" %(Bus, Dev, Func, VId[1], VId[0], DId[1], DId[0]))
-
+            if ShowRegs == True:
+                ShowPciConfigSpace(PcieMmioAddr)
+                print("\n")
     else:
         for Bus in range(0, MaxBusNum):
             for Dev in range(0, MaxDevNum):
@@ -94,3 +102,6 @@ if __name__ == "__main__":
                         continue
                     DId = MmioRead (PcieMmioAddr + 2, 2)
                     print("%02x:%02x.%x  VId = 0x%02x%02x, DId = 0x%02x%02x" %(Bus, Dev, Func, VId[1], VId[0], DId[1], DId[0]))
+                    if ShowRegs == True:
+                        ShowPciConfigSpace(PcieMmioAddr)
+                        print("\n")
