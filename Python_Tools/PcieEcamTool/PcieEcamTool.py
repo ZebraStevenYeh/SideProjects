@@ -31,12 +31,12 @@ def MmioRead (Addr, Len):
 
 def ShowPciConfigSpace (Addr):
     for Index in range(0, 0x1000):
+        if Index == 0x100 and MmioRead(Addr + Index, 4) == [0, 0, 0, 0]:
+            break
         Data = MmioRead(Addr + Index, 1)
         print ("%02x " %(Data[0]), end="")
-        if ((Index + 1) % 16 == 0):
+        if (Index + 1) % 16 == 0:
             print("")
-        if (Index == 0x100 and MmioRead(Addr + Index, 1) == 0):
-            break
     
 def HelpMessage ():
     print("PcieEcamTool:  usage")
